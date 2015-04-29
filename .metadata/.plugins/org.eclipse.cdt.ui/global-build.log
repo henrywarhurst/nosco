@@ -66,3 +66,66 @@ Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_S
 Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
 Android NDK:     current module    
 [armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+18:30:50 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+18:32:34 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+18:43:55 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+18:51:01 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+20:18:28 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+20:26:12 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+20:28:33 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+20:29:09 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+20:35:05 **** Incremental Build of configuration Default for project Nosco ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so

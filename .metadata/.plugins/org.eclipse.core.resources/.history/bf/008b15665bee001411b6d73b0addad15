@@ -230,7 +230,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 					// 3, 1, new Scalar(200, 200, 250), 1);
 		}
 		if (facesArray.length > 0)
-			speakText("Recognised Lucy Warhurst");
+			speakText("Recognised Bryn Vanderfield");
 
 		return mRgba;
 	}

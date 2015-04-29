@@ -226,11 +226,10 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 			// Draws the rectangle tl = top left, br = bottom right
 			Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
 					FACE_RECT_COLOR, 3);
+			speakText("Recognised Henry Warhurst");
 			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30, 30),
 					// 3, 1, new Scalar(200, 200, 250), 1);
 		}
-		if (facesArray.length > 0)
-			speakText("Recognised Lucy Warhurst");
 
 		return mRgba;
 	}

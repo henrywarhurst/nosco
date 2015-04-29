@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/fd_activity_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" >
+    </org.opencv.android.JavaCameraView>
+
+    <RelativeLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|left">
+        <Button
+            android:id="@+id/button_ChangeCamera"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="@string/train" 
+            android:layout_marginTop="30dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

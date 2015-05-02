@@ -9,14 +9,15 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
+//import org.opencv.contrib.FaceRecognizer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Core;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.objdetect.CascadeClassifier;
@@ -32,7 +33,10 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -40,6 +44,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		OnInitListener {
 
 	private TextToSpeech myTTS;
+
+	private final String imgPath = Environment.DIRECTORY_PICTURES;
 
 	private static final String TAG = "OCVSample::Activity";
 	private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
@@ -151,7 +157,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "called onCreate");
 		super.onCreate(savedInstanceState);
-		
+
 		myTTS = new TextToSpeech(this, this);
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -221,16 +227,18 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 
 		Rect[] facesArray = faces.toArray();
 		for (int i = 0; i < facesArray.length; i++) {
-			// Save each face in pictures
-			saveMatToImg(crop(facesArray[i], mRgba));
+			// Check roi isn't bigger than frame & save img
+			if (roiSizeOk(mRgba, facesArray[i]))
+				saveMatToImg(mRgba.submat(facesArray[i]));
 			// Draws the rectangle tl = top left, br = bottom right
 			Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
 					FACE_RECT_COLOR, 3);
-			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30, 30),
-					// 3, 1, new Scalar(200, 200, 250), 1);
+			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30,
+			// 30),
+			// 3, 1, new Scalar(200, 200, 250), 1);
 		}
-		if (facesArray.length > 0)
-			speakText("Recognised Lucy Warhurst");
+		// if (facesArray.length > 0)
+		// speakText("Recognised Someone");
 
 		return mRgba;
 	}
@@ -290,15 +298,18 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	}
 
 	private void saveMatToImg(Mat mat) {
-		File path = Environment
-				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+		// Resize image to 90x90
+		Mat resizedImg = new Mat();
+		Size size = new Size(100, 100);
+		Imgproc.resize(mat, resizedImg, size);
+		File path = Environment.getExternalStoragePublicDirectory(imgPath);
 		String filename = "pic" + picSuffix + ".jpg";
 		picSuffix++;
 		File file = new File(path, filename);
 
 		Boolean bool = null;
 		filename = file.toString();
-		bool = Highgui.imwrite(filename, mat);
+		bool = Highgui.imwrite(filename, resizedImg);
 
 		if (bool == true)
 			Log.i(TAG, "SUCCESS writing image to external storage");
@@ -311,9 +322,24 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		mediaScanIntent.setData(contentUri);
 		this.sendBroadcast(mediaScanIntent);
 	}
-	
-	public void speakText(String text) {
+
+	private void speakText(String text) {
 		myTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+	}
+	
+	public void trainFaces(View view) {
+		Intent intent = new Intent(this, FacesLibrary.class);
+		startActivity(intent);
+	}
+	
+	// Checks if roi is smaller than mat
+	public static boolean roiSizeOk(Mat mat, Rect roi) {
+		if (roi.x >= 0 && roi.y >= 0 && roi.x + roi.width < mat.cols() 
+				&& roi.y + roi.height < mat.rows()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -321,6 +347,6 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		if (status == TextToSpeech.SUCCESS) {
 			myTTS.setLanguage(Locale.UK);
 		}
-		
+
 	}
 }

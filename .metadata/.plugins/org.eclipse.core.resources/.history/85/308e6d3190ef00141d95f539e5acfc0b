@@ -1,0 +1,132 @@
+package com.example.nosco;
+
+import java.util.Locale;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class FacesLibrary extends Activity {
+
+	private ListView lv;
+	 
+	// Create Array's of titles, descriptions and thumbs resource id's:
+	private String title[] = { "Paul Viola", "Paul Viola", "Paul Viola", "Paul Viola",
+	"Paul Viola", "Paul Viola", "Paul Viola", "Paul Viola" };
+	 
+	private String desc[] = { "CV Researcher", "CV Researcher",
+	"CV Researcher", "CV Researcher", "CV Researcher",
+	"CV Researcher", "CV Researcher", "CV Researcher" };
+	 
+	private int thumb[] = { R.drawable.viola, R.drawable.viola,
+	R.drawable.viola, R.drawable.viola, R.drawable.viola,
+	R.drawable.viola, R.drawable.viola,
+	R.drawable.viola, };
+	 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	 
+	// Initialize the variables:
+	lv = (ListView) findViewById(R.id.listView);
+	 
+	// Set an Adapter to the ListView
+	lv.setAdapter(new VersionAdapter(this));
+	 
+	// Set on item click listener to the ListView
+	lv.setOnItemClickListener(new OnItemClickListener() {
+	 
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+	long arg3) {
+	// actions to be performed when a list item clicked
+	int pos = arg2;
+	 
+	LayoutInflater layoutInflator = getLayoutInflater();
+	 
+	View layout = layoutInflator.inflate(R.layout.custom_toast,
+	(ViewGroup) findViewById(R.id.toast_layout_root));
+	 
+	ImageView iv = (ImageView) layout.findViewById(R.id.toast_iv);
+	TextView tv = (TextView) layout.findViewById(R.id.toast_tv);
+	 
+	iv.setBackgroundResource(thumb[pos]);
+	tv.setText(title[pos]);
+	 
+	Toast toast = new Toast(getApplicationContext());
+	toast.setView(layout);
+	toast.setGravity(Gravity.CENTER, 0, 0);
+	toast.show();
+	}
+	});
+	 
+	}
+	 
+	// Create an Adapter Class extending the BaseAdapter
+	class VersionAdapter extends BaseAdapter {
+	 
+	private LayoutInflater layoutInflater;
+	 
+	public VersionAdapter(MainActivity activity) {
+	// TODO Auto-generated constructor stub
+	layoutInflater = (LayoutInflater) activity
+	.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	 
+	@Override
+	public int getCount() {
+	// Set the count value to the total number of items in the Array
+	return title.length;
+	}
+	 
+	@Override
+	public Object getItem(int position) {
+	// TODO Auto-generated method stub
+	return position;
+	}
+	 
+	@Override
+	public long getItemId(int position) {
+	// TODO Auto-generated method stub
+	return position;
+	}
+	 
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+	 
+	// Inflate the item layout and set the views
+	View listItem = convertView;
+	int pos = position;
+	if (listItem == null) {
+	listItem = layoutInflater.inflate(R.layout.list_item, null);
+	}
+	 
+	// Initialize the views in the layout
+	ImageView iv = (ImageView) listItem.findViewById(R.id.thumb);
+	TextView tvTitle = (TextView) listItem.findViewById(R.id.title);
+	TextView tvDesc = (TextView) listItem.findViewById(R.id.desc);
+	 
+	// Set the views in the layout
+	iv.setBackgroundResource(thumb[pos]);
+	tvTitle.setText(title[pos]);
+	tvDesc.setText(desc[pos]);
+	 
+	return listItem;
+	}
+	 
+	}
+	 
+	}
+	- See more at: http://techiedreams.com/android-simple-custom-list-views-with-examples/#sthash.KlMrOdM0.dpuf
+
+}

@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.example.nosco.SnapFace" >
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/fd_activity_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="5" >
+    </org.opencv.android.JavaCameraView>
+
+    <ImageView
+        android:id="@+id/snapPic"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_weight="1"
+        android:layout_gravity="center|center"
+        android:contentDescription="@string/take_photo"
+        android:src="@drawable/ic_action_camera" />
+
+</LinearLayout>

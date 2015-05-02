@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/TestButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="80sp"
+        android:layout_marginStart="80sp"
+        android:clickable="true"
+        android:text="Test button"
+        android:textSize="36sp">
+    </TextView>
+
+</RelativeLayout>

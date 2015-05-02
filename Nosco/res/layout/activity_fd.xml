@@ -12,6 +12,8 @@
 
     <TextView
         android:id="@+id/button_train"
+        android:clickable="true"
+        android:onClick="trainFaces"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="80sp"

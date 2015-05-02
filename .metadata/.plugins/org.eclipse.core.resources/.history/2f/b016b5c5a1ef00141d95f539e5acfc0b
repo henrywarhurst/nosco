@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:weightSum="1.0" >
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+    </ListView>
+
+    <LinearLayout
+        >
+        
+    </LinearLayout>
+    <Button
+        android:id="@+id/TestButton"
+        android:layout_width="0dip"
+        android:layout_weight=".5"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="80sp"
+        android:layout_marginStart="80sp"
+        android:clickable="true"
+        android:text="@string/add_face"
+        android:textSize="36sp">
+    </Button>
+
+</RelativeLayout>

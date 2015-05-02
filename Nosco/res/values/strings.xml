@@ -7,5 +7,17 @@
     <string name="splash_text">Nosco</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_fd">FdActivity</string>
+    <string name="title_activity_faces_library">FacesLibrary</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="add_face">Add new face</string>
+    <string name="run">Run</string>
+    <string name="library_header">Trained Faces</string>
+    <string name="img_content_descr">Profile Shot</string>
+    <string name="dummy_str">String</string>
+    <string name="title_activity_snap_face">SnapFace</string>
+    <string name="take_photo">Takes a photo of a face</string>
 
 </resources>

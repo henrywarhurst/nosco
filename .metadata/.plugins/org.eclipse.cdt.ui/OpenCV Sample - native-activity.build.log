@@ -1,0 +1,9 @@
+12:32:15 **** Auto Build of configuration Default for project OpenCV Sample - native-activity ****
+/ndk-build.cmd 
+Cannot run program "/ndk-build.cmd": Unknown reason
+
+Error: Program "/ndk-build.cmd" not found in PATH
+PATH=[/usr/bin:/bin:/usr/sbin:/sbin]
+
+12:32:15 Build Finished (took 5ms)
+

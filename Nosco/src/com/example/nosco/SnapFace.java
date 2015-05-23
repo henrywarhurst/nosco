@@ -4,40 +4,52 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
-//import org.opencv.contrib.FaceRecognizer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
 
-public class SnapFace extends Activity implements CvCameraViewListener2 {
-
+public class SnapFace extends Activity implements CvCameraViewListener2, OnTouchListener {
 
 	private final String imgPath = Environment.DIRECTORY_PICTURES;
 
 	private static final String TAG = "OCVSample::Activity";
 	private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
+	private static final Scalar ELLIPSE_COLOUR = new Scalar(255, 0, 0, 255);
 	public static final int JAVA_DETECTOR = 0;
 	public static final int NATIVE_DETECTOR = 1;
 
@@ -50,12 +62,17 @@ public class SnapFace extends Activity implements CvCameraViewListener2 {
 	private int mDetectorType = NATIVE_DETECTOR;
 	private String[] mDetectorName;
 
-	private float mRelativeFaceSize = 0.2f;
+	private float mRelativeFaceSize = 0.8f;
 	private int mAbsoluteFaceSize = 0;
 
+	private String firstname;
+	private String lastname;
+	private String personId;
 	private int picSuffix = 0;
 
-	private CameraBridgeViewBase mOpenCvCameraView;
+	private TrainCameraView mOpenCvCameraView;
+
+	private ImageView trigger;
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -132,8 +149,15 @@ public class SnapFace extends Activity implements CvCameraViewListener2 {
 
 		setContentView(R.layout.activity_snap_face);
 
-		mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.fd_activity_surface_view);
+		mOpenCvCameraView = (TrainCameraView) findViewById(R.id.activity_train_camera_view);
 		mOpenCvCameraView.setCvCameraViewListener(this);
+
+		trigger = (ImageView) findViewById(R.id.snap_pic_button);
+		trigger.setOnTouchListener(SnapFace.this);
+		
+		firstname = getIntent().getStringExtra("firstname");
+		lastname = getIntent().getStringExtra("lastname");
+		personId = getIntent().getStringExtra("id");
 	}
 
 	@Override
@@ -208,6 +232,22 @@ public class SnapFace extends Activity implements CvCameraViewListener2 {
 		// if (facesArray.length > 0)
 		// speakText("Recognised Someone");
 
+		double w = mRgba.width();
+		double h = mRgba.height();
+		int thickness = 2;
+		int lineType = 1;
+		// Left eye
+		RotatedRect box = new RotatedRect(new Point(w / 3.0, h / 2.2),
+				new Size(w / 15, h / 15), 0);
+		Core.ellipse(mRgba, box, ELLIPSE_COLOUR, thickness, lineType);
+		// Right eye
+		box = new RotatedRect(new Point(w / 3.0 + w / 5.0, h / 2.2), new Size(
+				w / 15, h / 15), 0);
+		Core.ellipse(mRgba, box, ELLIPSE_COLOUR, thickness, lineType);
+		// Face outline
+		box = new RotatedRect(new Point(w / 3.0 + w / 10.0, h / 2.0), new Size(
+				w / 2.2, h / 1.2), 0);
+		Core.ellipse(mRgba, box, ELLIPSE_COLOUR, thickness, lineType);
 		return mRgba;
 	}
 
@@ -246,10 +286,10 @@ public class SnapFace extends Activity implements CvCameraViewListener2 {
 		mediaScanIntent.setData(contentUri);
 		this.sendBroadcast(mediaScanIntent);
 	}
-	
+
 	// Checks if roi is smaller than mat
 	public static boolean roiSizeOk(Mat mat, Rect roi) {
-		if (roi.x >= 0 && roi.y >= 0 && roi.x + roi.width < mat.cols() 
+		if (roi.x >= 0 && roi.y >= 0 && roi.x + roi.width < mat.cols()
 				&& roi.y + roi.height < mat.rows()) {
 			return true;
 		} else {
@@ -257,5 +297,46 @@ public class SnapFace extends Activity implements CvCameraViewListener2 {
 		}
 	}
 
-}
+	public void picSnapped(View view) {
+		Log.i(TAG, "Picture taken event");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss",
+				Locale.US);
+		String currentDateandTime = sdf.format(new Date());
+		String fileName = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+				+ "/" + personId + currentDateandTime + ".jpg";
+		mOpenCvCameraView.takePicture(fileName);
+		Toast toast = Toast.makeText(this, "Image of " + firstname + " " + lastname + 
+				" captured", Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.BOTTOM|Gravity.RIGHT, 0, 0);
+		toast.show();
+		// Show the new file in the filesystem, otherwise we have to restart to
+		// show it.
+		sendBroadcast(new Intent(
+				Intent.ACTION_MEDIA_MOUNTED,
+				Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+	}
 
+	public boolean onTouch(View view, MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			setAlpha(view, 0.5f);
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			setAlpha(view, 1f);
+		}
+		return false;
+	}
+	
+	@SuppressLint("NewApi")
+	public static void setAlpha(View view, float alpha)
+	{
+	    if (Build.VERSION.SDK_INT < 11)
+	    {
+	        final AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
+	        animation.setDuration(0);
+	        animation.setFillAfter(true);
+	        view.startAnimation(animation);
+	    }
+	    else view.setAlpha(alpha);
+	}
+
+}

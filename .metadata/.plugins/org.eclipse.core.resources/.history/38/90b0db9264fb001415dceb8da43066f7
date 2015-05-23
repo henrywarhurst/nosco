@@ -1,0 +1,12 @@
+package com.example.nosco;
+
+import android.provider.BaseColumns;
+
+public class PeopleContract {
+	public PeopleContract() {};
+	
+	public class PersonEntry implements BaseColumns {
+		
+	}
+
+}

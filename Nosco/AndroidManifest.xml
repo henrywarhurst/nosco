@@ -62,8 +62,14 @@
         </activity>
         <activity
             android:name=".SnapFace"
-            android:screenOrientation="landscape"
             android:label="@string/title_activity_snap_face"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name=".FaceDetails"
+            android:label="@string/title_activity_face_details"
+            android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
     </application>

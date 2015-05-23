@@ -1,0 +1,16 @@
+package com.example.nosco;
+
+import android.provider.BaseColumns;
+
+public class PeopleContract {
+	public PeopleContract() {};
+	
+	public class PersonEntry implements BaseColumns {
+		public static final String TABLE_NAME = "people";
+		public static final String COLUMN_NAME_PERSON_ID = "personid";
+		public static final String COLUMN_NAME_FIRST_NAME = "firstname";
+		public static final String COLUMN_NAME_LAST_NAME = "lastname";
+		public static final String COLUMN_NAME_IMG_DIR = "imgdir";
+	}
+
+}

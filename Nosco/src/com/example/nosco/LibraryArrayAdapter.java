@@ -3,7 +3,6 @@ package com.example.nosco;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LibraryArrayAdapter extends ArrayAdapter<Face> {
+public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 
 	private LayoutInflater inflater;
-	private List<Face> data;
+	private List<Person> data;
 	private Context context;
 
-	public LibraryArrayAdapter(Context context, List<Face> objects) {
+	public LibraryArrayAdapter(Context context, List<Person> objects) {
 		super(context, R.layout.faces_library_li, objects);
 		this.context = context;
 
@@ -25,7 +24,6 @@ public class LibraryArrayAdapter extends ArrayAdapter<Face> {
 		this.data = objects;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -49,12 +47,11 @@ public class LibraryArrayAdapter extends ArrayAdapter<Face> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		@SuppressWarnings("deprecation")
-		int img = context.getResources().getIdentifier(
-				"com.example.nosco:drawable/" + data.get(position).getId(), null, null);
-		// set data to holder
-		holder.image.setImageResource(img);
-		holder.name.setText((CharSequence) data.get(position).getName());
+//		int img = context.getResources().getIdentifier(
+//				"com.example.nosco:drawable/" + data.get(position).getId(), null, null);
+//		// set data to holder
+//		holder.image.setImageResource(img);
+		holder.name.setText((CharSequence) data.get(position).toString());
 		// return ListView item
 		return convertView;
 	}

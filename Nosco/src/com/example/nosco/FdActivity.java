@@ -9,7 +9,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-//import org.opencv.contrib.FaceRecognizer;
+import org.opencv.contrib.FaceRecognizer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -37,6 +37,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import static org.bytedeco.javacpp.opencv_contrib.*;
 
 import java.util.Locale;
 
@@ -148,6 +150,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		mDetectorName = new String[2];
 		mDetectorName[JAVA_DETECTOR] = "Java";
 		mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
+		
+		//FaceRecognizer faceRecognizer = createFisherFaceRecognizer();
 
 		Log.i(TAG, "Instantiated new " + this.getClass());
 	}

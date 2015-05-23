@@ -1,0 +1,22 @@
+package com.example.nosco;
+
+import org.opencv.android.JavaCameraView;
+
+import android.content.Context;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
+import android.util.AttributeSet;
+
+public class TrainCameraView extends JavaCameraView implements PictureCallback {
+
+	public TrainCameraView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
+	@Override
+	public void onPictureTaken(byte[] data, Camera camera) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

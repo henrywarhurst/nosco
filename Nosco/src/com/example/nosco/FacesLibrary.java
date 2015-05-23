@@ -1,37 +1,47 @@
 package com.example.nosco;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 public class FacesLibrary extends ListActivity {
+	private PeopleDataSource datasource;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_faces_library);
-		// create employee list
-		List<Face> data = new ArrayList<Face>();
 
-		data.add(new Face("Paul Viola", "viola"));
-		data.add(new Face("Michael Jones", "jones"));
-		data.add(new Face("Ronald Fischer", "fischer"));
-		// this is final step.i create EmployerArrayAdapter with this context
-		// and data list and set it as ListAdapter
+		datasource = new PeopleDataSource(this);
+		datasource.open();
+
+		// create people list
+		List<Person> data = datasource.getAllPeople();
 		setListAdapter(new LibraryArrayAdapter(this, data));
 	}
-	
+
 	public void runFd(View view) {
 		Intent intent = new Intent(this, FdActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void addFace(View view) {
 		Intent intent = new Intent(this, SnapFace.class);
+		// TODO: Remove these lines eventually
+		intent.putExtra("firstname", "Cheng");
+		intent.putExtra("lastname", "Holum");
+		intent.putExtra("id", "33");
 		startActivity(intent);
+		//ADDS A PERSON TO THE PEOPLE SQLITE DB
+//		@SuppressWarnings("unchecked")
+//		ArrayAdapter<Person> adapter = (ArrayAdapter<Person>) getListAdapter();
+//		Person person = datasource.createPerson("Bob", "Weiner");
+//		adapter.add(person);
+//		adapter.notifyDataSetChanged();
 	}
 }

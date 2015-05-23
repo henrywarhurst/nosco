@@ -6,15 +6,16 @@
     android:orientation="horizontal"
     tools:context="com.example.nosco.SnapFace" >
 
-    <org.opencv.android.JavaCameraView
-        android:id="@+id/fd_activity_surface_view"
+    <com.example.nosco.TrainCameraView
+        android:id="@+id/activity_train_camera_view"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="5" >
-    </org.opencv.android.JavaCameraView>
+    </com.example.nosco.TrainCameraView>
 
     <ImageView
-        android:id="@+id/snapPic"
+        android:id="@+id/snap_pic_button"
+        android:onClick="picSnapped"
         android:layout_width="80sp"
         android:layout_height="fill_parent"
         android:layout_gravity="center|center"

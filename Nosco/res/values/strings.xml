@@ -19,5 +19,9 @@
     <string name="dummy_str">String</string>
     <string name="title_activity_snap_face">SnapFace</string>
     <string name="take_photo">Takes a photo of a face</string>
+    <string name="title_activity_face_details">FaceDetails</string>
+    <string name="firstname_hint">First Name</string>
+    <string name="lastname_hint">Last Name</string>
+    <string name="add">Add Face</string>
 
 </resources>

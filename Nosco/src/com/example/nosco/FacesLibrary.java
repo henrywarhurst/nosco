@@ -6,7 +6,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class FacesLibrary extends ListActivity {
 	private PeopleDataSource datasource;
@@ -31,17 +37,19 @@ public class FacesLibrary extends ListActivity {
 	}
 
 	public void addFace(View view) {
-		Intent intent = new Intent(this, SnapFace.class);
+		Intent intent = new Intent(this, FaceDetails.class);
 		// TODO: Remove these lines eventually
 		intent.putExtra("firstname", "Cheng");
 		intent.putExtra("lastname", "Holum");
 		intent.putExtra("id", "33");
 		startActivity(intent);
-		//ADDS A PERSON TO THE PEOPLE SQLITE DB
-//		@SuppressWarnings("unchecked")
-//		ArrayAdapter<Person> adapter = (ArrayAdapter<Person>) getListAdapter();
-//		Person person = datasource.createPerson("Bob", "Weiner");
-//		adapter.add(person);
-//		adapter.notifyDataSetChanged();
+		// ADDS A PERSON TO THE PEOPLE SQLITE DB
+		// @SuppressWarnings("unchecked")
+		// ArrayAdapter<Person> adapter = (ArrayAdapter<Person>)
+		// getListAdapter();
+		// Person person = datasource.createPerson("Bob", "Weiner");
+		// adapter.add(person);
+		// adapter.notifyDataSetChanged();
 	}
+
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 	private LayoutInflater inflater;
 	private List<Person> data;
 	private Context context;
+	private PeopleDataSource datasource;
 
 	public LibraryArrayAdapter(Context context, List<Person> objects) {
 		super(context, R.layout.faces_library_li, objects);
@@ -22,6 +24,8 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 
 		inflater = LayoutInflater.from(context);
 		this.data = objects;
+		datasource = new PeopleDataSource(this.context);
+		datasource.open();
 	}
 
 	@Override
@@ -47,13 +51,34 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-//		int img = context.getResources().getIdentifier(
-//				"com.example.nosco:drawable/" + data.get(position).getId(), null, null);
-//		// set data to holder
-//		holder.image.setImageResource(img);
+		// int img = context.getResources().getIdentifier(
+		// "com.example.nosco:drawable/" + data.get(position).getId(), null,
+		// null);
+		// // set data to holder
+		// holder.image.setImageResource(img);
 		holder.name.setText((CharSequence) data.get(position).toString());
+
+		ImageView deleteButton = (ImageView) convertView
+				.findViewById(R.id.remove);
+		deleteButton.setTag(position);
+
+		deleteButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Integer index = (Integer) v.getTag();
+				Person toDelete = data.get(index.intValue());
+				datasource.deletePerson(toDelete);
+				data.remove(index.intValue());
+				notifyDataSetChanged();
+			}
+		});
 		// return ListView item
 		return convertView;
+	}
+	
+	@Override
+	public boolean isEnabled (int position) {
+		return false;
 	}
 
 	// ViewHolder class that hold over ListView Item

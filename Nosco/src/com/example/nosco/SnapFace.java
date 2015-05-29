@@ -9,11 +9,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
@@ -43,7 +45,8 @@ import android.widget.Toast;
 import android.view.View.OnTouchListener;
 import android.view.animation.AlphaAnimation;
 
-public class SnapFace extends Activity implements CvCameraViewListener2, OnTouchListener {
+public class SnapFace extends Activity implements CvCameraViewListener2,
+		OnTouchListener {
 
 	private final String imgPath = Environment.DIRECTORY_PICTURES;
 
@@ -54,23 +57,24 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 	public static final int NATIVE_DETECTOR = 1;
 
 	private Mat mRgba;
+	private Mat mCurFace;
 	private Mat mGray;
 	private File mCascadeFile;
 	private CascadeClassifier mJavaDetector;
 	private DetectionBasedTracker mNativeDetector;
 
-	private int mDetectorType = NATIVE_DETECTOR;
 	private String[] mDetectorName;
 
 	private float mRelativeFaceSize = 0.8f;
 	private int mAbsoluteFaceSize = 0;
 
-	private String firstname;
-	private String lastname;
-	private String personId;
-	private int picSuffix = 0;
+	private String mFirstname;
+	private String mLastname;
+	private String mPersonId;
 
-	private TrainCameraView mOpenCvCameraView;
+	private Rect roi;
+
+	private CameraBridgeViewBase mOpenCvCameraView;
 
 	private ImageView trigger;
 
@@ -136,6 +140,8 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 		mDetectorName[JAVA_DETECTOR] = "Java";
 		mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
 
+		roi = null;
+
 		Log.i(TAG, "Instantiated new " + this.getClass());
 	}
 
@@ -154,10 +160,12 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 
 		trigger = (ImageView) findViewById(R.id.snap_pic_button);
 		trigger.setOnTouchListener(SnapFace.this);
+
+		mFirstname = getIntent().getStringExtra("firstname");
+		mLastname = getIntent().getStringExtra("lastname");
+		mPersonId = getIntent().getStringExtra("id");
 		
-		firstname = getIntent().getStringExtra("firstname");
-		lastname = getIntent().getStringExtra("lastname");
-		personId = getIntent().getStringExtra("id");
+		mCurFace = null;
 	}
 
 	@Override
@@ -190,47 +198,46 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-
+		
 		mRgba = inputFrame.rgba();
 		mGray = inputFrame.gray();
+		
+		// TODO: REmove this line
+		Log.i(TAG, "Mat dims. Height: " + mRgba.height() + " Width: " + mRgba.width());
 
 		if (mAbsoluteFaceSize == 0) {
 			int height = mGray.rows();
 			if (Math.round(height * mRelativeFaceSize) > 0) {
 				mAbsoluteFaceSize = Math.round(height * mRelativeFaceSize);
 			}
-			mNativeDetector.setMinFaceSize(mAbsoluteFaceSize);
 		}
 
 		MatOfRect faces = new MatOfRect();
 
-		if (mDetectorType == JAVA_DETECTOR) {
-			if (mJavaDetector != null)
-				mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2,
-						2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
-						new Size(mAbsoluteFaceSize, mAbsoluteFaceSize),
-						new Size());
-		} else if (mDetectorType == NATIVE_DETECTOR) {
-			if (mNativeDetector != null)
-				mNativeDetector.detect(mGray, faces);
-		} else {
-			Log.e(TAG, "Detection method is not selected!");
-		}
+		if (mJavaDetector != null)
+			mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, new Size(
+					mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
 
 		Rect[] facesArray = faces.toArray();
-		for (int i = 0; i < facesArray.length; i++) {
-			// Check roi isn't bigger than frame & save img
-			if (roiSizeOk(mRgba, facesArray[i]))
-				saveMatToImg(mRgba.submat(facesArray[i]));
+		if (facesArray.length > 0) {
+			// Store the current face
+			if (Utility.roiSizeOk(mRgba, facesArray[0])) {
+				mCurFace = new Mat();
+				mRgba.submat(facesArray[0]).copyTo(mCurFace);
+				Imgproc.cvtColor(mCurFace, mCurFace, Imgproc.COLOR_RGBA2BGRA);
+			} else {
+				mCurFace = null;
+			}
 			// Draws the rectangle tl = top left, br = bottom right
-			Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
+			Core.rectangle(mRgba, facesArray[0].tl(), facesArray[0].br(),
 					FACE_RECT_COLOR, 3);
-			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30,
-			// 30),
-			// 3, 1, new Scalar(200, 200, 250), 1);
+
+			if (roiSizeOk(mRgba, facesArray[0])) {
+				roi = facesArray[0];
+			}
+		} else { // No face
+			mCurFace = null;
 		}
-		// if (facesArray.length > 0)
-		// speakText("Recognised Someone");
 
 		double w = mRgba.width();
 		double h = mRgba.height();
@@ -261,32 +268,6 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 		return cropped;
 	}
 
-	private void saveMatToImg(Mat mat) {
-		// Resize image to 90x90
-		Mat resizedImg = new Mat();
-		Size size = new Size(100, 100);
-		Imgproc.resize(mat, resizedImg, size);
-		File path = Environment.getExternalStoragePublicDirectory(imgPath);
-		String filename = "pic" + picSuffix + ".jpg";
-		picSuffix++;
-		File file = new File(path, filename);
-
-		Boolean bool = null;
-		filename = file.toString();
-		bool = Highgui.imwrite(filename, resizedImg);
-
-		if (bool == true)
-			Log.i(TAG, "SUCCESS writing image to external storage");
-		else
-			Log.i(TAG, "Failure writing image to external storage");
-
-		Intent mediaScanIntent = new Intent(
-				Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-		Uri contentUri = Uri.fromFile(file);
-		mediaScanIntent.setData(contentUri);
-		this.sendBroadcast(mediaScanIntent);
-	}
-
 	// Checks if roi is smaller than mat
 	public static boolean roiSizeOk(Mat mat, Rect roi) {
 		if (roi.x >= 0 && roi.y >= 0 && roi.x + roi.width < mat.cols()
@@ -298,20 +279,38 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 	}
 
 	public void picSnapped(View view) {
+		// If there is no face detected
+		if (mCurFace == null) {
+			Toast toast = Toast.makeText(this, "No face detected!", Toast.LENGTH_SHORT);
+			toast.show();
+			return;
+		}
+		
 		Log.i(TAG, "Picture taken event");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss",
 				Locale.US);
 		String currentDateandTime = sdf.format(new Date());
 		String fileName = Environment
 				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-				+ "/" + personId + currentDateandTime + ".jpg";
-		mOpenCvCameraView.takePicture(fileName);
-		Toast toast = Toast.makeText(this, "Image of " + firstname + " " + lastname + 
-				" captured", Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.BOTTOM|Gravity.RIGHT, 0, 0);
+				+ "/" + mPersonId + currentDateandTime + ".jpg";
+		// Resize image to 100x100
+		Mat resizedImg = new Mat();
+		Size size = new Size(100, 100);
+		Imgproc.resize(mCurFace, resizedImg, size);
+		// Save img to file
+		Boolean bool = null;
+		bool = Highgui.imwrite(fileName, resizedImg);
+		if (bool == true) {
+			Log.i(TAG, "SUCCESS writing image to external storage");
+		} else {
+			Log.i(TAG, "Failure writing image to external storage");
+		}
+		// Display popup
+		Toast toast = Toast.makeText(this, "Image of " + mFirstname + " "
+				+ mLastname + " captured", Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 0, 0);
 		toast.show();
-		// Show the new file in the filesystem, otherwise we have to restart to
-		// show it.
+		// Show the new file in the filesystem
 		sendBroadcast(new Intent(
 				Intent.ACTION_MEDIA_MOUNTED,
 				Uri.parse("file://" + Environment.getExternalStorageDirectory())));
@@ -319,24 +318,12 @@ public class SnapFace extends Activity implements CvCameraViewListener2, OnTouch
 
 	public boolean onTouch(View view, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			setAlpha(view, 0.5f);
+			Utility.setAlpha(view, 0.5f);
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
-			setAlpha(view, 1f);
+			// view.performClick();
+			Utility.setAlpha(view, 1f);
 		}
 		return false;
-	}
-	
-	@SuppressLint("NewApi")
-	public static void setAlpha(View view, float alpha)
-	{
-	    if (Build.VERSION.SDK_INT < 11)
-	    {
-	        final AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
-	        animation.setDuration(0);
-	        animation.setFillAfter(true);
-	        view.startAnimation(animation);
-	    }
-	    else view.setAlpha(alpha);
 	}
 
 }

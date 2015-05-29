@@ -2,10 +2,16 @@ package com.example.nosco;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +23,7 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 	private List<Person> data;
 	private Context context;
 	private PeopleDataSource datasource;
+	private View tempView;
 
 	public LibraryArrayAdapter(Context context, List<Person> objects) {
 		super(context, R.layout.faces_library_li, objects);
@@ -61,15 +68,46 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 		ImageView deleteButton = (ImageView) convertView
 				.findViewById(R.id.remove);
 		deleteButton.setTag(position);
+		
+		deleteButton.setOnTouchListener(new Button.OnTouchListener() {
+			@SuppressLint("ClickableViewAccessibility")
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					Utility.setAlpha(view, 0.5f);
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					//view.performClick();
+					Utility.setAlpha(view, 1f);
+				}
+				return false;
+			}
+		});
 
 		deleteButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Integer index = (Integer) v.getTag();
-				Person toDelete = data.get(index.intValue());
-				datasource.deletePerson(toDelete);
-				data.remove(index.intValue());
-				notifyDataSetChanged();
+				// to avoid scope issues with non-fianl variables
+				tempView = v;
+				
+				new AlertDialog.Builder(v.getContext())
+			    .setTitle("Delete entry")
+			    .setMessage("Are you sure you want to delete this entry?")
+			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+						Integer index = (Integer) tempView.getTag();
+						Person toDelete = data.get(index.intValue());
+						datasource.deletePerson(toDelete);
+						data.remove(index.intValue());
+						notifyDataSetChanged();
+			        }
+			     })
+			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			        	// Do nothing, don't delete the entry
+			        }
+			     })
+			    .setIcon(android.R.drawable.ic_dialog_alert)
+			     .show();
 			}
 		});
 		// return ListView item

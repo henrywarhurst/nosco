@@ -2,13 +2,19 @@ package com.example.nosco;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,10 +44,6 @@ public class FacesLibrary extends ListActivity {
 
 	public void addFace(View view) {
 		Intent intent = new Intent(this, FaceDetails.class);
-		// TODO: Remove these lines eventually
-		intent.putExtra("firstname", "Cheng");
-		intent.putExtra("lastname", "Holum");
-		intent.putExtra("id", "33");
 		startActivity(intent);
 		// ADDS A PERSON TO THE PEOPLE SQLITE DB
 		// @SuppressWarnings("unchecked")
@@ -51,5 +53,4 @@ public class FacesLibrary extends ListActivity {
 		// adapter.add(person);
 		// adapter.notifyDataSetChanged();
 	}
-
 }

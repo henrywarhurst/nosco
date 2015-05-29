@@ -232,8 +232,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		Rect[] facesArray = faces.toArray();
 		for (int i = 0; i < facesArray.length; i++) {
 			// Check roi isn't bigger than frame & save img
-			if (roiSizeOk(mRgba, facesArray[i]))
-				saveMatToImg(mRgba.submat(facesArray[i]));
+			if (Utility.roiSizeOk(mRgba, facesArray[i]))
+				//saveMatToImg(mRgba.submat(facesArray[i]));
 			// Draws the rectangle tl = top left, br = bottom right
 			Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
 					FACE_RECT_COLOR, 3);
@@ -302,7 +302,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	}
 
 	private void saveMatToImg(Mat mat) {
-		// Resize image to 90x90
+		// Resize image to 100x100
 		Mat resizedImg = new Mat();
 		Size size = new Size(100, 100);
 		Imgproc.resize(mat, resizedImg, size);
@@ -334,16 +334,6 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	public void trainFaces(View view) {
 		Intent intent = new Intent(this, FacesLibrary.class);
 		startActivity(intent);
-	}
-	
-	// Checks if roi is smaller than mat
-	public static boolean roiSizeOk(Mat mat, Rect roi) {
-		if (roi.x >= 0 && roi.y >= 0 && roi.x + roi.width < mat.cols() 
-				&& roi.y + roi.height < mat.rows()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override

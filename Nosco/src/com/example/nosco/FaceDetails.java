@@ -32,8 +32,11 @@ public class FaceDetails extends Activity{
 			//TODO: Handle this case!
 		}
 		// Ad the new person to the database
-		datasource.createPerson(fn_str, ln_str);
-		Intent intent = new Intent(FaceDetails.this, FacesLibrary.class);
+		Person p = datasource.createPerson(fn_str, ln_str);
+		Intent intent = new Intent(FaceDetails.this, SnapFace.class);
+		intent.putExtra("firstname", p.getFirstname());
+		intent.putExtra("lastname", p.getLastname());
+		intent.putExtra("id", p.getId());
 		startActivity(intent);
 	}
 }

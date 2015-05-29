@@ -8,6 +8,7 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="getId"/>
 			<item value="mCamera"/>
 			<item value="mOpenCvCameraView"/>
 			<item value="comment"/>

@@ -9,7 +9,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.contrib.FaceRecognizer;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -38,8 +38,8 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import static org.bytedeco.javacpp.opencv_contrib.*;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class FdActivity extends Activity implements CvCameraViewListener2,
@@ -49,7 +49,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 
 	private final String imgPath = Environment.DIRECTORY_PICTURES;
 
-	private static final String TAG = "OCVSample::Activity";
+	private static final String TAG = "FaceDetection::Activity";
 	private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
 	public static final int JAVA_DETECTOR = 0;
 	public static final int NATIVE_DETECTOR = 1;
@@ -73,6 +73,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	private int mAbsoluteFaceSize = 0;
 
 	private int picSuffix = 0;
+	
+	private FaceRec faceRecognizer;
 
 	private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -150,8 +152,6 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		mDetectorName = new String[2];
 		mDetectorName[JAVA_DETECTOR] = "Java";
 		mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
-		
-		//FaceRecognizer faceRecognizer = createFisherFaceRecognizer();
 
 		Log.i(TAG, "Instantiated new " + this.getClass());
 	}
@@ -163,6 +163,9 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		super.onCreate(savedInstanceState);
 
 		myTTS = new TextToSpeech(this, this);
+		
+		faceRecognizer = new FaceRec();
+		faceRecognizer.train();
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -240,6 +243,11 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30,
 			// 30),
 			// 3, 1, new Scalar(200, 200, 250), 1);
+		}
+		// TODO: Change this so it checks if it knows everyone in an image
+		if (Utility.roiSizeOk(mRgba, facesArray[0])) {
+			int classNum = faceRecognizer.predict(mGray.submat(facesArray[0]));
+			Log.i(TAG, "Class num = " + Integer.toString(classNum));
 		}
 		// if (facesArray.length > 0)
 		// speakText("Recognised Someone");

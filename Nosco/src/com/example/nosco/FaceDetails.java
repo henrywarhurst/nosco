@@ -3,12 +3,15 @@ package com.example.nosco;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 public class FaceDetails extends Activity{
 	private PeopleDataSource datasource;
+	
+	private static final String TAG = "FaceDetails::";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class FaceDetails extends Activity{
 		Intent intent = new Intent(FaceDetails.this, SnapFace.class);
 		intent.putExtra("firstname", p.getFirstname());
 		intent.putExtra("lastname", p.getLastname());
-		intent.putExtra("id", p.getId());
+		intent.putExtra("personid", Long.toString(p.getId()));
 		startActivity(intent);
 	}
 }

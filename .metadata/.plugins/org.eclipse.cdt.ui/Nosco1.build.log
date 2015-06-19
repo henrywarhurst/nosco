@@ -1,0 +1,70 @@
+11:58:17 **** Build of configuration Default for project Nosco1 ****
+/Users/hwar/Documents/android/android-ndk-r10d/ndk-build all 
+Android NDK: WARNING:jni/Android.mk:detection_based_tracker: non-system libraries in linker flags: -lopencv_java    
+Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES    
+Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the    
+Android NDK:     current module    
+[armeabi-v7a] Install        : libavcodec.so => libs/armeabi-v7a/libavcodec.so
+[armeabi-v7a] Install        : libavdevice.so => libs/armeabi-v7a/libavdevice.so
+[armeabi-v7a] Install        : libavfilter.so => libs/armeabi-v7a/libavfilter.so
+[armeabi-v7a] Install        : libavformat.so => libs/armeabi-v7a/libavformat.so
+[armeabi-v7a] Install        : libavutil.so => libs/armeabi-v7a/libavutil.so
+[armeabi-v7a] Install        : libdetection_based_tracker.so => libs/armeabi-v7a/libdetection_based_tracker.so
+[armeabi-v7a] Install        : libjniavcodec.so => libs/armeabi-v7a/libjniavcodec.so
+[armeabi-v7a] Install        : libjniavdevice.so => libs/armeabi-v7a/libjniavdevice.so
+[armeabi-v7a] Install        : libjniavfilter.so => libs/armeabi-v7a/libjniavfilter.so
+[armeabi-v7a] Install        : libjniavformat.so => libs/armeabi-v7a/libjniavformat.so
+[armeabi-v7a] Install        : libjniavutil.so => libs/armeabi-v7a/libjniavutil.so
+[armeabi-v7a] Install        : libjnicvkernels.so => libs/armeabi-v7a/libjnicvkernels.so
+[armeabi-v7a] Install        : libjniopencv_calib3d.so => libs/armeabi-v7a/libjniopencv_calib3d.so
+[armeabi-v7a] Install        : libjniopencv_contrib.so => libs/armeabi-v7a/libjniopencv_contrib.so
+[armeabi-v7a] Install        : libjniopencv_core.so => libs/armeabi-v7a/libjniopencv_core.so
+[armeabi-v7a] Install        : libjniopencv_features2d.so => libs/armeabi-v7a/libjniopencv_features2d.so
+[armeabi-v7a] Install        : libjniopencv_flann.so => libs/armeabi-v7a/libjniopencv_flann.so
+[armeabi-v7a] Install        : libjniopencv_highgui.so => libs/armeabi-v7a/libjniopencv_highgui.so
+[armeabi-v7a] Install        : libjniopencv_imgproc.so => libs/armeabi-v7a/libjniopencv_imgproc.so
+[armeabi-v7a] Install        : libjniopencv_legacy.so => libs/armeabi-v7a/libjniopencv_legacy.so
+[armeabi-v7a] Install        : libjniopencv_ml.so => libs/armeabi-v7a/libjniopencv_ml.so
+[armeabi-v7a] Install        : libjniopencv_nonfree.so => libs/armeabi-v7a/libjniopencv_nonfree.so
+[armeabi-v7a] Install        : libjniopencv_objdetect.so => libs/armeabi-v7a/libjniopencv_objdetect.so
+[armeabi-v7a] Install        : libjniopencv_photo.so => libs/armeabi-v7a/libjniopencv_photo.so
+[armeabi-v7a] Install        : libjniopencv_stitching.so => libs/armeabi-v7a/libjniopencv_stitching.so
+[armeabi-v7a] Install        : libjniopencv_superres.so => libs/armeabi-v7a/libjniopencv_superres.so
+[armeabi-v7a] Install        : libjniopencv_video.so => libs/armeabi-v7a/libjniopencv_video.so
+[armeabi-v7a] Install        : libjniopencv_videostab.so => libs/armeabi-v7a/libjniopencv_videostab.so
+[armeabi-v7a] Install        : libjnipostproc.so => libs/armeabi-v7a/libjnipostproc.so
+[armeabi-v7a] Install        : libjniswresample.so => libs/armeabi-v7a/libjniswresample.so
+[armeabi-v7a] Install        : libjniswscale.so => libs/armeabi-v7a/libjniswscale.so
+[armeabi-v7a] Install        : libnative_camera_r2.2.0.so => libs/armeabi-v7a/libnative_camera_r2.2.0.so
+[armeabi-v7a] Install        : libnative_camera_r2.3.3.so => libs/armeabi-v7a/libnative_camera_r2.3.3.so
+[armeabi-v7a] Install        : libnative_camera_r3.0.1.so => libs/armeabi-v7a/libnative_camera_r3.0.1.so
+[armeabi-v7a] Install        : libnative_camera_r4.0.0.so => libs/armeabi-v7a/libnative_camera_r4.0.0.so
+[armeabi-v7a] Install        : libnative_camera_r4.0.3.so => libs/armeabi-v7a/libnative_camera_r4.0.3.so
+[armeabi-v7a] Install        : libnative_camera_r4.1.1.so => libs/armeabi-v7a/libnative_camera_r4.1.1.so
+[armeabi-v7a] Install        : libnative_camera_r4.2.0.so => libs/armeabi-v7a/libnative_camera_r4.2.0.so
+[armeabi-v7a] Install        : libnative_camera_r4.3.0.so => libs/armeabi-v7a/libnative_camera_r4.3.0.so
+[armeabi-v7a] Install        : libnative_camera_r4.4.0.so => libs/armeabi-v7a/libnative_camera_r4.4.0.so
+[armeabi-v7a] Install        : libopencv_calib3d.so => libs/armeabi-v7a/libopencv_calib3d.so
+[armeabi-v7a] Install        : libopencv_contrib.so => libs/armeabi-v7a/libopencv_contrib.so
+[armeabi-v7a] Install        : libopencv_core.so => libs/armeabi-v7a/libopencv_core.so
+[armeabi-v7a] Install        : libopencv_features2d.so => libs/armeabi-v7a/libopencv_features2d.so
+[armeabi-v7a] Install        : libopencv_flann.so => libs/armeabi-v7a/libopencv_flann.so
+[armeabi-v7a] Install        : libopencv_gpu.so => libs/armeabi-v7a/libopencv_gpu.so
+[armeabi-v7a] Install        : libopencv_highgui.so => libs/armeabi-v7a/libopencv_highgui.so
+[armeabi-v7a] Install        : libopencv_imgproc.so => libs/armeabi-v7a/libopencv_imgproc.so
+[armeabi-v7a] Install        : libopencv_legacy.so => libs/armeabi-v7a/libopencv_legacy.so
+[armeabi-v7a] Install        : libopencv_ml.so => libs/armeabi-v7a/libopencv_ml.so
+[armeabi-v7a] Install        : libopencv_nonfree.so => libs/armeabi-v7a/libopencv_nonfree.so
+[armeabi-v7a] Install        : libopencv_objdetect.so => libs/armeabi-v7a/libopencv_objdetect.so
+[armeabi-v7a] Install        : libopencv_photo.so => libs/armeabi-v7a/libopencv_photo.so
+[armeabi-v7a] Install        : libopencv_stitching.so => libs/armeabi-v7a/libopencv_stitching.so
+[armeabi-v7a] Install        : libopencv_superres.so => libs/armeabi-v7a/libopencv_superres.so
+[armeabi-v7a] Install        : libopencv_video.so => libs/armeabi-v7a/libopencv_video.so
+[armeabi-v7a] Install        : libopencv_videostab.so => libs/armeabi-v7a/libopencv_videostab.so
+[armeabi-v7a] Install        : libpostproc.so => libs/armeabi-v7a/libpostproc.so
+[armeabi-v7a] Install        : libswresample.so => libs/armeabi-v7a/libswresample.so
+[armeabi-v7a] Install        : libswscale.so => libs/armeabi-v7a/libswscale.so
+[armeabi-v7a] Install        : libtbb.so => libs/armeabi-v7a/libtbb.so
+
+11:58:19 Build Finished (took 1s.605ms)
+

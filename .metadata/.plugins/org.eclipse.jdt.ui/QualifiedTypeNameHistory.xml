@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.os.Handler"/>
-<fullyQualifiedTypeName name="android.speech.tts.TextToSpeech"/>
-<fullyQualifiedTypeName name="org.opencv.contrib.FaceRecognizer"/>
-<fullyQualifiedTypeName name="org.opencv.imgcodecs.Imgcodecs"/>
-<fullyQualifiedTypeName name="org.opencv.highgui.Highgui"/>
-<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
-<fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 <fullyQualifiedTypeName name="com.example.nosco.R.layout"/>
 <fullyQualifiedTypeName name="org.opencv.core.Point"/>
 <fullyQualifiedTypeName name="org.opencv.core.Core"/>
@@ -45,10 +38,7 @@
 <fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
 <fullyQualifiedTypeName name="android.app.AlertDialog"/>
 <fullyQualifiedTypeName name="android.content.DialogInterface"/>
-<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
-<fullyQualifiedTypeName name="org.opencv.core.Mat"/>
 <fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
-<fullyQualifiedTypeName name="org.opencv.android.Utils"/>
 <fullyQualifiedTypeName name="android.graphics.Camera"/>
 <fullyQualifiedTypeName name="android.hardware.Camera.Size"/>
 <fullyQualifiedTypeName name="org.opencv.android.CameraBridgeViewBase"/>
@@ -60,4 +50,14 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.opencv.core.CvType"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.MatVector"/>
+<fullyQualifiedTypeName name="org.opencv.core.Mat"/>
+<fullyQualifiedTypeName name="java.nio.IntBuffer"/>
+<fullyQualifiedTypeName name="org.opencv.android.Utils"/>
+<fullyQualifiedTypeName name="android.text.StaticLayout"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacv.JavaCV"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_contrib"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.Loader"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_nonfree"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_imgproc"/>
 </qualifiedTypeNameHistroy>

@@ -15,14 +15,14 @@
 			<location>/Users/hwar/Documents/android/android-sdk-macosx/sources/android-22</location>
 		</link>
 		<link>
-			<name>.link3</name>
-			<type>2</type>
-			<location>/Users/hwar/Documents/UniWork/2015/INFO3911/javacv-bin</location>
-		</link>
-		<link>
 			<name>.link4</name>
 			<type>2</type>
 			<location>/Users/hwar/Documents/android/android-sdk-macosx/sources/android-19</location>
+		</link>
+		<link>
+			<name>.link5</name>
+			<type>2</type>
+			<location>/Users/hwar/Documents/UniWork/2015/INFO3911/javacv-bin</location>
 		</link>
 	</linkedResources>
 </projectDescription>

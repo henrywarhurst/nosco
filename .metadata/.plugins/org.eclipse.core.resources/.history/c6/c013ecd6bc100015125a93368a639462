@@ -1,0 +1,49 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+#OPENCV_CAMERA_MODULES:=on
+#OPENCV_INSTALL_MODULES:=on
+#OPENCV_LIB_TYPE:=SHARED
+include /Users/hwar/Documents/android/OpenCV-2.4.10-android-sdk/sdk/native/jni/OpenCV.mk
+
+LOCAL_SRC_FILES  := DetectionBasedTracker_jni.cpp
+LOCAL_C_INCLUDES += $(LOCAL_PATH)
+LOCAL_LDLIBS     += -llog -ldl
+
+LOCAL_MODULE     := detection_based_tracker
+
+include $(BUILD_SHARED_LIBRARY)
+
+# Add contrib shared object
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libopencv_contrib
+LOCAL_SRC_FILES := libopencv_contrib.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+# Add core shared object
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libopencv_core
+LOCAL_SRC_FILES := libopencv_core.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+# Add highgui shared object
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libopencv_highgui
+LOCAL_SRC_FILES := libopencv_highgui.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+
+# Add imgproc shared object
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := libopencv_imgproc
+LOCAL_SRC_FILES := libopencv_imgproc.so
+
+include $(PREBUILT_SHARED_LIBRARY)
+

@@ -1,12 +1,18 @@
 package com.example.nosco;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +25,7 @@ import android.widget.TextView;
 
 public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 
+	private static final String imgPath = Environment.DIRECTORY_PICTURES;
 	private LayoutInflater inflater;
 	private List<Person> data;
 	private Context context;
@@ -57,6 +64,29 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 		else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		
+		// Set the profile pic
+		File path = Environment.getExternalStoragePublicDirectory(imgPath);
+
+		FilenameFilter imgFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				name = name.toLowerCase();
+				return name.endsWith(".jpg") || name.endsWith(".pgm")
+						|| name.endsWith(".png");
+			}
+		};
+
+		File[] imageFiles = path.listFiles(imgFilter);
+		
+		long tmp_id = data.get(position).getId();
+		for (File f : imageFiles) {
+			long cur_id = Integer
+					.parseInt(f.getName().split("\\-")[0]);
+			if (cur_id == tmp_id) {
+				Bitmap bitmap = BitmapFactory.decodeFile(f.getPath());
+				holder.image.setImageBitmap(bitmap);
+			}
+		}
 
 		// int img = context.getResources().getIdentifier(
 		// "com.example.nosco:drawable/" + data.get(position).getId(), null,
@@ -69,7 +99,25 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 				.findViewById(R.id.remove);
 		deleteButton.setTag(position);
 		
+		ImageView addMoreButton = (ImageView) convertView
+				.findViewById(R.id.addMore);
+		addMoreButton.setTag(position);
+		
 		deleteButton.setOnTouchListener(new Button.OnTouchListener() {
+			@SuppressLint("ClickableViewAccessibility")
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					Utility.setAlpha(view, 0.5f);
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					//view.performClick();
+					Utility.setAlpha(view, 1f);
+				}
+				return false;
+			}
+		});
+		
+		addMoreButton.setOnTouchListener(new Button.OnTouchListener() {
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
@@ -108,6 +156,19 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 			     })
 			    .setIcon(android.R.drawable.ic_dialog_alert)
 			     .show();
+			}
+		});
+		
+		addMoreButton.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Integer index = (Integer) v.getTag();
+				Person p = data.get(index.intValue());
+				Intent intent = new Intent(context, SnapFace.class);
+				intent.putExtra("firstname", p.getFirstname());
+				intent.putExtra("lastname", p.getLastname());
+				intent.putExtra("personid", Long.toString(p.getId()));
+				context.startActivity(intent);
 			}
 		});
 		// return ListView item

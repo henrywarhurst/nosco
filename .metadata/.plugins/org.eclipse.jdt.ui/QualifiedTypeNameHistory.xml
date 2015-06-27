@@ -27,7 +27,6 @@
 <fullyQualifiedTypeName name="android.widget.EditText"/>
 <fullyQualifiedTypeName name="com.example.nosco.R.id"/>
 <fullyQualifiedTypeName name="android.widget.ArrayAdapter"/>
-<fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="android.widget.AdapterView"/>
 <fullyQualifiedTypeName name="android.widget.ListView"/>
 <fullyQualifiedTypeName name="android.widget.AdapterView.OnItemClickListener"/>
@@ -38,7 +37,6 @@
 <fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
 <fullyQualifiedTypeName name="android.app.AlertDialog"/>
 <fullyQualifiedTypeName name="android.content.DialogInterface"/>
-<fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
 <fullyQualifiedTypeName name="android.graphics.Camera"/>
 <fullyQualifiedTypeName name="android.hardware.Camera.Size"/>
 <fullyQualifiedTypeName name="org.opencv.android.CameraBridgeViewBase"/>
@@ -46,10 +44,7 @@
 <fullyQualifiedTypeName name="org.opencv.imgproc.Imgproc"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.io.FilenameFilter"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.opencv.core.CvType"/>
-<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.MatVector"/>
 <fullyQualifiedTypeName name="org.opencv.core.Mat"/>
 <fullyQualifiedTypeName name="java.nio.IntBuffer"/>
 <fullyQualifiedTypeName name="org.opencv.android.Utils"/>
@@ -58,6 +53,11 @@
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_contrib"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.Loader"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_nonfree"/>
-<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_imgproc"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="android.graphics.BitmapFactory"/>
+<fullyQualifiedTypeName name="android.graphics.Bitmap"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.MatVector"/>
 </qualifiedTypeNameHistroy>

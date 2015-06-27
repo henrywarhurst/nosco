@@ -220,7 +220,7 @@ public class SnapFace extends Activity implements CvCameraViewListener2,
 			if (Utility.roiSizeOk(mRgba, facesArray[0])) {
 				mCurFace = new Mat();
 				mRgba.submat(facesArray[0]).copyTo(mCurFace);
-				Imgproc.cvtColor(mCurFace, mCurFace, Imgproc.COLOR_RGBA2BGRA);
+				Imgproc.cvtColor(mCurFace, mCurFace, Imgproc.COLOR_RGBA2GRAY);
 			} else {
 				mCurFace = null;
 			}
@@ -273,6 +273,11 @@ public class SnapFace extends Activity implements CvCameraViewListener2,
 			return false;
 		}
 	}
+	
+	public void toLibrary(View view) {
+		Intent intent = new Intent(this, FacesLibrary.class);
+		startActivity(intent);
+	}
 
 	public void picSnapped(View view) {
 		// If there is no face detected
@@ -288,7 +293,7 @@ public class SnapFace extends Activity implements CvCameraViewListener2,
 		String currentDateandTime = sdf.format(new Date());
 		String fileName = Environment
 				.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-				+ "/" + mPersonId + "_" + currentDateandTime + ".jpg";
+				+ "/" + mPersonId + "-" + currentDateandTime + ".jpg";
 		// Resize image to 100x100
 		Mat resizedImg = new Mat();
 		Size size = new Size(100, 100);
@@ -316,7 +321,6 @@ public class SnapFace extends Activity implements CvCameraViewListener2,
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			Utility.setAlpha(view, 0.5f);
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
-			// view.performClick();
 			Utility.setAlpha(view, 1f);
 		}
 		return false;

@@ -3,6 +3,8 @@ package com.example.nosco;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 
 // JavaCV
@@ -17,6 +19,7 @@ import org.opencv.android.Utils;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 
 /**
  * Wraps the JavaCV FaceRecognizer as an OpenCV class
@@ -26,10 +29,14 @@ import android.os.Environment;
 public class FaceRec {
 	private FaceRecognizer faceRecognizer;
 	
+	private static final String TAG = "FaceRec";
+	
 	private static final String imgPath = Environment.DIRECTORY_PICTURES;
 	
 	private static final int WIDTH = 				100;
 	private static final int HEIGHT =				100;
+	
+	private List<Integer> seenIds;
 
 	public FaceRec() {
 		faceRecognizer = createLBPHFaceRecognizer(2, 8, 8, 8, 200);
@@ -51,13 +58,22 @@ public class FaceRec {
 		MatVector images = new MatVector(imageFiles.length);
 		Mat labels = new Mat((int) images.size(), 1, CV_32SC1);
 		IntBuffer labelsBuff = labels.getIntBuffer();
+		seenIds = new ArrayList<Integer>();
 
 		for (int i = 0; i < imageFiles.length; ++i) {
 			Mat img = imread(imageFiles[i].getAbsolutePath(),
 					CV_LOAD_IMAGE_GRAYSCALE);
-			int label = Integer
+			int cur_id = Integer
 					.parseInt(imageFiles[i].getName().split("\\-")[0]);
-
+			int label = -1;
+			// If we have seen this label before
+			if (inArray(cur_id, seenIds)) {
+				label = seenIds.indexOf(cur_id);
+			// Make a new label
+			} else {
+				seenIds.add(cur_id);
+				label = seenIds.size() - 1;
+			}
 			images.put(i, img);
 
 			labelsBuff.put(i, label);
@@ -65,6 +81,7 @@ public class FaceRec {
 		faceRecognizer.train(images, labels);
 	}
 	
+	// Returns the ID of the discovered person
 	public int predict(org.opencv.core.Mat face) {
 		// A hack to allow for modifiable method arguments
 		int n[] = new int[1];
@@ -73,8 +90,13 @@ public class FaceRec {
 		Mat convertedFace = MatToJavaCvMat(face, WIDTH, HEIGHT);
 		
 		faceRecognizer.predict(convertedFace, n, p);
-		// TODO: Change this so it checks the confidence
-		return n[0];
+		Log.e(TAG, "Confidence = " + Double.toString(p[0]));
+		// Confidence is opposite to what you would intuit
+		if (n[0] == -1 || p[0] > 70) {
+			return -1;
+		} else {
+			return seenIds.get(n[0]);
+		}
 	}
 	
 	// ***************** Utility Functions **********************
@@ -109,5 +131,14 @@ public class FaceRec {
 
 		Mat imgMat = new Mat(grayImg, true);
 		return imgMat;
+	}
+	
+	// Determines whether the value x is in arr
+	public static boolean inArray(int x, List<Integer> arr) {
+		for (Integer cur_int : arr) {
+			if (cur_int == x)
+				return true;
+		}
+		return false;
 	}
 }

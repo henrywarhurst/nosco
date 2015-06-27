@@ -45,12 +45,5 @@ public class FacesLibrary extends ListActivity {
 	public void addFace(View view) {
 		Intent intent = new Intent(this, FaceDetails.class);
 		startActivity(intent);
-		// ADDS A PERSON TO THE PEOPLE SQLITE DB
-		// @SuppressWarnings("unchecked")
-		// ArrayAdapter<Person> adapter = (ArrayAdapter<Person>)
-		// getListAdapter();
-		// Person person = datasource.createPerson("Bob", "Weiner");
-		// adapter.add(person);
-		// adapter.notifyDataSetChanged();
 	}
 }

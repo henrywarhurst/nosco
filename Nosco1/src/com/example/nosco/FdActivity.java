@@ -29,21 +29,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class FdActivity extends Activity implements CvCameraViewListener2,
-		OnInitListener {
+		TextToSpeech.OnInitListener {
 
 	private TextToSpeech myTTS;
 
@@ -60,6 +56,13 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	private MenuItem mItemFace20;
 	private MenuItem mItemType;
 
+	// Counts how many times we have recognised the
+	// same person in a row.
+	private int seenCnt;
+
+	// Who should we speak the name of
+	private String speakName;
+
 	private Mat mRgba;
 	private Mat mGray;
 	private File mCascadeFile;
@@ -73,23 +76,16 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	private int mAbsoluteFaceSize = 0;
 
 	private int picSuffix = 0;
-	
+
 	private FaceRec faceRecognizer;
 
-	private CameraBridgeViewBase mOpenCvCameraView;
+	// The database
+	private PeopleDataSource datasource;
+	private List<Person> allPeople;
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 0) {
-			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-				myTTS = new TextToSpeech(this, this);
-			} else {
-				Intent installTTSIntent = new Intent();
-				installTTSIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installTTSIntent);
-			}
-		}
-	}
+	private int MY_DATA_CHECK_CODE = 0;
+
+	private CameraBridgeViewBase mOpenCvCameraView;
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -161,11 +157,27 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "called onCreate");
 		super.onCreate(savedInstanceState);
-
-		myTTS = new TextToSpeech(this, this);
 		
+		myTTS = new TextToSpeech(this, this);
+
 		faceRecognizer = new FaceRec();
+
 		faceRecognizer.train();
+
+		// Interface with the database
+		datasource = new PeopleDataSource(this);
+		datasource.open();
+		allPeople = datasource.getAllPeople();
+
+		// Reset seen count
+		seenCnt = 0;
+
+		speakName = "";
+
+		// TTS setup
+		Intent checkTTSIntent = new Intent();
+		checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -205,7 +217,6 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-
 		mRgba = inputFrame.rgba();
 		mGray = inputFrame.gray();
 
@@ -236,22 +247,45 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 		for (int i = 0; i < facesArray.length; i++) {
 			// Check roi isn't bigger than frame & save img
 			if (Utility.roiSizeOk(mRgba, facesArray[i]))
-				//saveMatToImg(mRgba.submat(facesArray[i]));
-			// Draws the rectangle tl = top left, br = bottom right
-			Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
-					FACE_RECT_COLOR, 3);
+				// saveMatToImg(mRgba.submat(facesArray[i]));
+				// Draws the rectangle tl = top left, br = bottom right
+				Core.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(),
+						FACE_RECT_COLOR, 3);
 			// Core.putText(mRgba, "Recognised Henry Warhurst", new Point(30,
 			// 30),
 			// 3, 1, new Scalar(200, 200, 250), 1);
 		}
 		// TODO: Change this so it checks if it knows everyone in an image
 		if (facesArray.length != 0 && Utility.roiSizeOk(mRgba, facesArray[0])) {
-			int classNum = faceRecognizer.predict(mGray.submat(facesArray[0]));
-			Log.e(TAG, "Class num = " + Integer.toString(classNum));
-		}
-		// if (facesArray.length > 0)
-		// speakText("Recognised Someone");
+			int curId = faceRecognizer.predict(mGray.submat(facesArray[0]));
+			String firstName = null;
+			String lastName = null;
+			for (Person p : allPeople) {
+				if ((int) p.getId() == curId) {
+					firstName = p.getFirstname();
+					lastName = p.getLastname();
+				}
+			}
+			if (firstName != null) {
+				Log.e(TAG, "Person is " + firstName + " " + lastName);
+				Log.e(TAG, "ID of above is " + Integer.toString(curId));
 
+				if (!speakName.equals(firstName)) {
+					speakName = firstName;
+					seenCnt = 0;
+					myTTS.stop();
+				} else if (seenCnt < 5) {
+					seenCnt++;
+				} else {
+					speakText("Recognised " + speakName);
+					seenCnt = 0;
+				}
+			} else {
+				Log.e(TAG, "Unknown person");
+				speakName = "";
+				seenCnt = 0;
+			}
+		}
 		return mRgba;
 	}
 
@@ -336,19 +370,22 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	}
 
 	private void speakText(String text) {
-		myTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+		myTTS.speak(text, TextToSpeech.QUEUE_ADD, null);
 	}
-	
+
 	public void trainFaces(View view) {
 		Intent intent = new Intent(this, FacesLibrary.class);
 		startActivity(intent);
 	}
 
-	@Override
-	public void onInit(int status) {
-		if (status == TextToSpeech.SUCCESS) {
-			myTTS.setLanguage(Locale.UK);
+	// setup TTS
+	public void onInit(int initStatus) {
+		// check for successful instantiation
+		if (initStatus == TextToSpeech.SUCCESS) {
+			if (myTTS.isLanguageAvailable(Locale.UK) == TextToSpeech.LANG_AVAILABLE)
+				myTTS.setLanguage(Locale.UK);
+		} else if (initStatus == TextToSpeech.ERROR) {
+			Log.e(TAG, "TTS onInit Error!");
 		}
-
 	}
 }

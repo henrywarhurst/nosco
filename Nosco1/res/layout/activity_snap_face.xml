@@ -13,15 +13,32 @@
         android:layout_weight="5" >
     </com.example.nosco.TrainCameraView>
 
-    <ImageView
-        android:id="@+id/snap_pic_button"
-        android:onClick="picSnapped"
+    <RelativeLayout
         android:layout_width="80sp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center|center"
-        android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
-        android:contentDescription="@string/take_photo"
-        android:src="@drawable/ic_action_camera" />
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/done_snap"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_gravity="center|top"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:onClick="toLibrary"
+            android:src="@drawable/ic_action_done" />
+
+        <ImageView
+            android:id="@+id/snap_pic_button"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/take_photo"
+            android:onClick="picSnapped"
+            android:src="@drawable/ic_action_camera" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="horizontal"
+    tools:context="com.example.nosco.SnapFace" >
+
+    <com.example.nosco.TrainCameraView
+        android:id="@+id/activity_train_camera_view"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="5" >
+    </com.example.nosco.TrainCameraView>
+
+    <RelativeLayout
+        android:layout_width="80sp"
+        android:layout_height="fill_parent">
+        <ImageView
+            android:id="@+id/done_snap"
+            android:layout_width="80sp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:src="@drawable/ic_action_done" />
+
+        <ImageView
+            android:id="@+id/snap_pic_button"
+            android:layout_width="80sp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:contentDescription="@string/take_photo"
+            android:onClick="picSnapped"
+            android:src="@drawable/ic_action_camera" />
+    </RelativeLayout>
+
+</LinearLayout>

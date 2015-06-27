@@ -348,10 +348,11 @@ int drawable abc_textfield_search_default_mtrl_alpha 0x7f020035
 int drawable abc_textfield_search_material 0x7f020036
 int drawable fischer 0x7f020037
 int drawable ic_action_camera 0x7f020038
-int drawable ic_action_remove 0x7f020039
-int drawable ic_launcher 0x7f02003a
-int drawable jones 0x7f02003b
-int drawable viola 0x7f02003c
+int drawable ic_action_done 0x7f020039
+int drawable ic_action_remove 0x7f02003a
+int drawable ic_launcher 0x7f02003b
+int drawable jones 0x7f02003c
+int drawable viola 0x7f02003d
 int id action_bar 0x7f0a0034
 int id action_bar_activity_content 0x7f0a0003
 int id action_bar_container 0x7f0a0033
@@ -367,6 +368,7 @@ int id action_mode_bar_stub 0x7f0a0030
 int id action_mode_close_button 0x7f0a0023
 int id activity_chooser_view_content 0x7f0a0024
 int id activity_train_camera_view 0x7f0a004a
+int id addMore 0x7f0a0050
 int id always 0x7f0a0014
 int id any 0x7f0a001e
 int id back 0x7f0a001f
@@ -381,9 +383,10 @@ int id decor_content_parent 0x7f0a0032
 int id default_activity_button 0x7f0a0027
 int id dialog 0x7f0a0019
 int id disableHome 0x7f0a000d
+int id done_snap 0x7f0a004b
 int id dropdown 0x7f0a001a
 int id edit_query 0x7f0a0036
-int id employee 0x7f0a004c
+int id employee 0x7f0a004d
 int id end 0x7f0a001c
 int id expand_activities_button 0x7f0a0025
 int id expanded_menu 0x7f0a002b
@@ -395,7 +398,7 @@ int id homeAsUp 0x7f0a000e
 int id icon 0x7f0a0029
 int id ifRoom 0x7f0a0016
 int id image 0x7f0a0026
-int id imageViewFace 0x7f0a004d
+int id imageViewFace 0x7f0a004e
 int id lastname 0x7f0a0043
 int id listMode 0x7f0a000a
 int id list_item 0x7f0a0028
@@ -406,7 +409,7 @@ int id normal 0x7f0a000b
 int id progress_circular 0x7f0a0007
 int id progress_horizontal 0x7f0a0008
 int id radio 0x7f0a002e
-int id remove 0x7f0a004f
+int id remove 0x7f0a0051
 int id search_badge 0x7f0a0038
 int id search_bar 0x7f0a0037
 int id search_button 0x7f0a0039
@@ -421,11 +424,11 @@ int id shortcut 0x7f0a002d
 int id showCustom 0x7f0a0010
 int id showHome 0x7f0a0011
 int id showTitle 0x7f0a0012
-int id snap_pic_button 0x7f0a004b
+int id snap_pic_button 0x7f0a004c
 int id split_action_bar 0x7f0a0004
 int id submit_area 0x7f0a003f
 int id tabMode 0x7f0a000c
-int id textViewName 0x7f0a004e
+int id textViewName 0x7f0a004f
 int id title 0x7f0a002a
 int id topBanner 0x7f0a0044
 int id up 0x7f0a0001

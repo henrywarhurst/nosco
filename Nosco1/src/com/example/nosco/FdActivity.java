@@ -266,6 +266,7 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 					lastName = p.getLastname();
 				}
 			}
+			Log.e(TAG, "Firstname" + firstName);
 			if (firstName != null) {
 				Log.e(TAG, "Person is " + firstName + " " + lastName);
 				Log.e(TAG, "ID of above is " + Integer.toString(curId));
@@ -382,8 +383,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2,
 	public void onInit(int initStatus) {
 		// check for successful instantiation
 		if (initStatus == TextToSpeech.SUCCESS) {
-			if (myTTS.isLanguageAvailable(Locale.UK) == TextToSpeech.LANG_AVAILABLE)
-				myTTS.setLanguage(Locale.UK);
+			if (myTTS.isLanguageAvailable(Locale.ENGLISH) == TextToSpeech.LANG_AVAILABLE)
+				myTTS.setLanguage(Locale.ENGLISH);
 		} else if (initStatus == TextToSpeech.ERROR) {
 			Log.e(TAG, "TTS onInit Error!");
 		}

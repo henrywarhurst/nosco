@@ -42,7 +42,6 @@
 <fullyQualifiedTypeName name="org.opencv.android.CameraBridgeViewBase"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.CvType"/>
 <fullyQualifiedTypeName name="org.opencv.imgproc.Imgproc"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.io.FilenameFilter"/>
 <fullyQualifiedTypeName name="org.opencv.core.CvType"/>
 <fullyQualifiedTypeName name="org.opencv.core.Mat"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.bytedeco.javacpp.opencv_core.MatVector"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
 </qualifiedTypeNameHistroy>

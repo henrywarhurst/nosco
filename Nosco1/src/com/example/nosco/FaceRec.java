@@ -37,9 +37,12 @@ public class FaceRec {
 	private static final int HEIGHT =				100;
 	
 	private List<Integer> seenIds;
+	
+	private boolean emptyTrainingSet;
 
 	public FaceRec() {
 		faceRecognizer = createLBPHFaceRecognizer(2, 8, 8, 8, 200);
+		emptyTrainingSet = false;
 	}
 
 	public void train() {
@@ -54,6 +57,11 @@ public class FaceRec {
 		};
 
 		File[] imageFiles = path.listFiles(imgFilter);
+		
+		if (imageFiles.length == 0) {
+			emptyTrainingSet = true;
+			return;
+		}
 
 		MatVector images = new MatVector(imageFiles.length);
 		Mat labels = new Mat((int) images.size(), 1, CV_32SC1);
@@ -83,6 +91,9 @@ public class FaceRec {
 	
 	// Returns the ID of the discovered person
 	public int predict(org.opencv.core.Mat face) {
+		if (emptyTrainingSet) {
+			return -2;
+		}
 		// A hack to allow for modifiable method arguments
 		int n[] = new int[1];
 		double p[] = new double[1];

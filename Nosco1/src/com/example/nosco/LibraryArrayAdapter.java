@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,12 +26,14 @@ import android.widget.TextView;
 
 public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 
+	private static final String TAG = "LibraryArrayAdapter";
 	private static final String imgPath = Environment.DIRECTORY_PICTURES;
 	private LayoutInflater inflater;
 	private List<Person> data;
 	private Context context;
 	private PeopleDataSource datasource;
 	private View tempView;
+	private long delId;
 
 	public LibraryArrayAdapter(Context context, List<Person> objects) {
 		super(context, R.layout.faces_library_li, objects);
@@ -134,7 +137,7 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 		deleteButton.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// to avoid scope issues with non-fianl variables
+				// to avoid scope issues with non-final variables
 				tempView = v;
 				
 				new AlertDialog.Builder(v.getContext())
@@ -144,9 +147,26 @@ public class LibraryArrayAdapter extends ArrayAdapter<Person> {
 			        public void onClick(DialogInterface dialog, int which) { 
 						Integer index = (Integer) tempView.getTag();
 						Person toDelete = data.get(index.intValue());
+						delId = toDelete.getId();
 						datasource.deletePerson(toDelete);
 						data.remove(index.intValue());
 						notifyDataSetChanged();
+						
+						File path = Environment.getExternalStoragePublicDirectory(imgPath);
+						FilenameFilter imgFilter = new FilenameFilter() {
+							public boolean accept(File dir, String name) {
+								name = name.toLowerCase();
+								return name.matches(Long.toString(delId) + ".*\\.jpg");
+							}
+						};
+						
+						// Remove images associated with this person
+						File[] imageFiles = path.listFiles(imgFilter);
+						Log.i(TAG, "imageFiles is of size " + imageFiles.length);
+						for (File f : imageFiles) {
+							f.delete();
+						}
+						
 			        }
 			     })
 			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
